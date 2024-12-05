@@ -1,6 +1,5 @@
-package no.wisdan.pgr209exam.product;
+package no.wisdan.pgr209exam.customer;
 
-import no.wisdan.pgr209exam.models.Status;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,75 +9,65 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-@WebMvcTest(ProductController.class)
-class ProductControllerTest {
-
-    static List<Product> products = new ArrayList<>();
+@WebMvcTest(CustomerController.class)
+class CustomerControllerTest {
+    static List<Customer> customers = new ArrayList<>();
     @Autowired
     MockMvc mockMvc;
     @MockBean
-    ProductService service;
+    CustomerService service;
 
     @BeforeAll
-
-    static void setUpBeforeClass() {
+    static void setUp() {
         for (int i = 0; i < 10; i++) {
-            products.add(new Product(
-                    "Product" + i,
-                    "Description for Product" + i,
-                    new BigDecimal("100.00"),
-                    Status.AVAILABLE,
-                    10
-            ));
+            customers.add(new Customer("FirstName" + i, "LastName" + i, "983456789", "email" + i));
         }
     }
 
     @Test
-    void getProducts() throws Exception {
-        when(service.findAll()).thenReturn(products);
-        this.mockMvc.perform(get("/api/product"))
+    void getCustomer() throws Exception {
+        when(service.findAll()).thenReturn(customers);
+        this.mockMvc.perform(get("/api/customer"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
-    void getProductById() throws Exception {
-        when(service.findById(1)).thenReturn(products.get(1));
+    void getCustomerById() throws Exception {
+        when(service.findById(1)).thenReturn(customers.get(1));
         System.out.println(new ObjectMapper().writeValueAsString(service.findById(1)));
         this.mockMvc.perform(
-                        get("/api/product/1"))
+                        get("/api/customer/1"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void saveProduct() throws Exception {
-        when(service.save(new Product())).thenReturn(products.get(1));
+    void saveCustomer() throws Exception {
+        when(service.save(new Customer())).thenReturn(customers.get(1));
         this.mockMvc.perform(
-                post("/api/product")
+                post("/api/customer")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(products.get(1)))
+                        .content(new ObjectMapper().writeValueAsString(customers.get(1)))
         ).andExpect(status().isOk());
     }
 
     @Test
-    void deleteProduct() throws Exception {
-        doNothing().when(service).delete(1);
-        this.mockMvc.perform(delete("/api/product/1"))
+    void deleteCustomer() throws Exception {
+        doNothing().when(service).deleteById(1);
+        this.mockMvc.perform(delete("/api/customer/1"))
                 .andExpect(status().isOk())
                 .andExpect(result -> {
                     String responseContent = result.getResponse().getContentAsString();
-                    assert responseContent.contains("Deleted product with id 1");
+                    assert responseContent.contains("Customer deleted");
                 });
     }
 }
-

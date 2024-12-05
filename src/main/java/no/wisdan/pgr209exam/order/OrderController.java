@@ -37,5 +37,4 @@ public class OrderController {
         orderService.deleteById(id);
         return ResponseEntity.ok("Order deleted");
     }
-
 }

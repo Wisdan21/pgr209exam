@@ -63,7 +63,4 @@ public class Order {
         this.isShipped = isShipped;
     }
 
-//testing
-    public Order(String s) {
-    }
 }

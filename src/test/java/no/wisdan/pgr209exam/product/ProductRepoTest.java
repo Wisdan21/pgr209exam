@@ -28,14 +28,14 @@ class ProductRepoTest {
 
     @Test
     void shouldInsertLocation() {
-        var product = productRepo.save(new Product("Product 99"));
+        var product = productRepo.save(new Product());
         assert productRepo.findById(product.getId()).isPresent();
     }
 
 
     @Test
     void shouldDeleteLocation() {
-        var product = productRepo.save(new Product("Product 10"));
+        var product = productRepo.save(new Product());
         productRepo.delete(product);
         assert productRepo.findById(product.getId()).isEmpty();
     }

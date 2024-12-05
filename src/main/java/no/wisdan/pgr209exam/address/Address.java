@@ -22,7 +22,7 @@ public class Address {
     private String zipcode;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     public Address(String street, String city, String zipcode, Customer customer) {
@@ -31,8 +31,5 @@ public class Address {
         this.zipcode = zipcode;
         this.customer = customer;
     }
-//Testing
-    public Address(String street) {
-        this.street = street;
-    }
+
 }

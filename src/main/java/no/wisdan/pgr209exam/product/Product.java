@@ -37,7 +37,4 @@ public class Product {
         this.quantityOnHand = quantityOnHand;
     }
 
-    public Product(String name) {
-        this.name = name;
-    }
 }

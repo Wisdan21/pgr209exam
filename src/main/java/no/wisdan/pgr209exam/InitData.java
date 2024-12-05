@@ -1,19 +1,14 @@
 package no.wisdan.pgr209exam;
 
 import com.github.javafaker.Faker;
-import no.wisdan.pgr209exam.address.Address;
 import no.wisdan.pgr209exam.address.AddressService;
-import no.wisdan.pgr209exam.customer.Customer;
 import no.wisdan.pgr209exam.customer.CustomerService;
-import no.wisdan.pgr209exam.order.Order;
 import no.wisdan.pgr209exam.order.OrderService;
 import no.wisdan.pgr209exam.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 
@@ -39,6 +34,7 @@ public class InitData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 //Legge til order og address her
+        /*
         List<Customer> customers = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             customers.add(customerService.save(new Customer(

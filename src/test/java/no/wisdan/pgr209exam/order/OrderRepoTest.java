@@ -28,13 +28,13 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
      @Test
      void shouldInsertCustomer() {
-         var order = orderRepo.save(new Order("Order 99"));
+         var order = orderRepo.save(new Order());
          assert orderRepo.findById(order.getId()).isPresent();
      }
 
      @Test
      void shouldDeleteCustomer() {
-         var order = orderRepo.save(new Order("Order 10"));
+         var order = orderRepo.save(new Order());
          orderRepo.delete(order);
          assert orderRepo.findById(order.getId()).isEmpty();
      }

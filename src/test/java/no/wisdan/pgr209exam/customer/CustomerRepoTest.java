@@ -28,13 +28,13 @@ class CustomerRepoTest {
 
     @Test
     void shouldInsertCustomer() {
-        var customer = customerRepo.save(new Customer("Customer 99"));
+        var customer = customerRepo.save(new Customer());
         assert customerRepo.findById(customer.getId()).isPresent();
     }
 
     @Test
     void shouldDeleteCustomer() {
-        var customer = customerRepo.save(new Customer("Customer 10"));
+        var customer = customerRepo.save(new Customer());
         customerRepo.delete(customer);
         assert customerRepo.findById(customer.getId()).isEmpty();
     }

@@ -25,5 +25,16 @@ class AddressRepoTest {
         assert postgres.isCreated();
         assert postgres.isRunning();
     }
+    @Test
+    void shouldInsertAddress() {
+        var address = addressRepo.save(new Address());
+        assert addressRepo.findById(address.getId()).isPresent();
+    }
+    @Test
+    void shouldDeleteAddress() {
+        var address = addressRepo.save(new Address());
+        addressRepo.delete(address);
+        assert addressRepo.findById(address.getId()).isEmpty();
+    }
 
 }

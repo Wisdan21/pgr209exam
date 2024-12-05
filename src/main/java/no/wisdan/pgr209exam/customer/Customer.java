@@ -34,7 +34,17 @@ public class Customer {
     private List<Order> orders;
 
     @OneToMany(mappedBy = "customer")
+    @JsonIgnoreProperties("address")
     private List<Address> addresses;
+
+    public Customer(String firstName, String lastName, String phoneNumber, String email, List<Order> orders, List<Address> addresses) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.orders = orders;
+        this.addresses = addresses;
+    }
 
     public Customer(String firstName, String lastName, String phoneNumber, String email) {
         this.firstName = firstName;
@@ -42,6 +52,5 @@ public class Customer {
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
-
 }
 

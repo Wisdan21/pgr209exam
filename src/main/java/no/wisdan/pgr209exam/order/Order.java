@@ -32,7 +32,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    @JsonIgnoreProperties("orders")
+    @JsonIgnoreProperties("customer")
     private Customer customer;
     @ManyToMany
     @JoinTable(
@@ -45,7 +45,9 @@ public class Order {
     private List<Product> products;
 
     @ManyToOne
+    @JsonIgnoreProperties("shippingAddress")
     @JoinColumn(name = "shipping_address_id")
+
     private Address shippingAddress;
 
     public Order(BigDecimal shippingCharge, BigDecimal totalPrice, boolean isShipped, Customer customer, List<Product> products, Address shippingAddress) {

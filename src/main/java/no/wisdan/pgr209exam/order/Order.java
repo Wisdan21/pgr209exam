@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import no.wisdan.pgr209exam.address.Address;
 import no.wisdan.pgr209exam.customer.Customer;
+import no.wisdan.pgr209exam.product.Product;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -41,13 +42,13 @@ public class Order {
     )
 
 
-    private List<Customer> products;
+    private List<Product> products;
 
     @ManyToOne
     @JoinColumn(name = "shipping_address_id")
     private Address shippingAddress;
 
-    public Order(BigDecimal shippingCharge, BigDecimal totalPrice, boolean isShipped, Customer customer, List<Customer> products, Address shippingAddress) {
+    public Order(BigDecimal shippingCharge, BigDecimal totalPrice, boolean isShipped, Customer customer, List<Product> products, Address shippingAddress) {
         this.shippingCharge = shippingCharge;
         this.totalPrice = totalPrice;
         this.isShipped = isShipped;
@@ -60,5 +61,9 @@ public class Order {
         this.shippingCharge = shippingCharge;
         this.totalPrice = totalPrice;
         this.isShipped = isShipped;
+    }
+
+//testing
+    public Order(String s) {
     }
 }

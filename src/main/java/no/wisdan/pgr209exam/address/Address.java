@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import no.wisdan.pgr209exam.customer.Customer;
 
+
 @Entity
 @Getter
 @Setter
@@ -29,5 +30,9 @@ public class Address {
         this.city = city;
         this.zipcode = zipcode;
         this.customer = customer;
+    }
+//Testing
+    public Address(String street) {
+        this.street = street;
     }
 }

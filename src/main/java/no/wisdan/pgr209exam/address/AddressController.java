@@ -20,7 +20,7 @@ public class AddressController {
         return ResponseEntity.ok(addressService.findAll());
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Address> getAddressById(@PathVariable Long id) {
+    public ResponseEntity<Address> getAddressById(@PathVariable long id) {
         return ResponseEntity.ok(addressService.findById(id));
     }
     @PostMapping
@@ -28,7 +28,7 @@ public class AddressController {
         return ResponseEntity.ok(addressService.save(address));
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAddress(@PathVariable Long id) {
+    public ResponseEntity<String> deleteAddress(@PathVariable long id) {
         addressService.deleteById(id);
         return ResponseEntity.ok("Deleted address with id " + id);
     }

@@ -1,9 +1,13 @@
 package no.wisdan.pgr209exam.order;
 
+import no.wisdan.pgr209exam.customer.Customer;
+import no.wisdan.pgr209exam.exception.CustomerNotFoundException;
+import no.wisdan.pgr209exam.exception.OrderNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class OrderService {
@@ -22,8 +26,14 @@ public class OrderService {
         return orderRepo.findAll();
     }
 
-    public Order findById(Long id) {
-        return orderRepo.findById(id).orElse(null);
+    public Order findById(long id) {
+        Order order;
+        try {
+            order = orderRepo.findById(id).orElseThrow();
+        } catch (NoSuchElementException e) {
+            throw new OrderNotFoundException("Order " + id + "not found");
+        }
+        return order;
     }
 
     public void deleteById(Long id) {

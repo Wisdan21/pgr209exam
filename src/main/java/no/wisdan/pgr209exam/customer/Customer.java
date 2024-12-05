@@ -43,5 +43,9 @@ public class Customer {
         this.email = email;
     }
 
+    //For testing
+    public Customer(String firstName) {
+        this.firstName = firstName;
+    }
 }
 

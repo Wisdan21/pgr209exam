@@ -1,9 +1,11 @@
 package no.wisdan.pgr209exam.customer;
 
+import no.wisdan.pgr209exam.exception.CustomerNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class CustomerService {
@@ -22,11 +24,17 @@ public class CustomerService {
         return customerRepo.save(customer);
     }
 
-    public Customer findById(Long id) {
-        return customerRepo.findById(id).orElse(null);
+    public Customer findById(long id) {
+        Customer customer;
+        try {
+            customer = customerRepo.findById(id).orElseThrow();
+        } catch (NoSuchElementException e) {
+            throw new CustomerNotFoundException("Customer " + id + "not found");
+        }
+        return customer;
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(long id) {
         customerRepo.deleteById(id);
     }
     public void deleteAllCustomers() {

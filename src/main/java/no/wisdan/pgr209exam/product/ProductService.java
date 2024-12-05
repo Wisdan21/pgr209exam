@@ -1,8 +1,10 @@
 package no.wisdan.pgr209exam.product;
 
+import no.wisdan.pgr209exam.exception.ProductNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ProductService {
@@ -16,18 +18,21 @@ public class ProductService {
         return productRepo.findAll();
     }
 
-    public Product findById(Long id) {
-        return productRepo.findById(id).orElse(null);
+    public Product findById(long id) {
+        Product product;
+        try {
+            product = productRepo.findById(id).orElseThrow();
+        } catch (NoSuchElementException e) {
+            throw new ProductNotFoundException("Product " + id + "not found");
+        }
+        return product;
     }
 
     public Product save(Product product) {
         return productRepo.save(product);
     }
 
-    public void delete(Long id) {
+    public void delete(long id) {
         productRepo.deleteById(id);
-    }
-    public void deleteAllProducts() {
-        productRepo.deleteAll();
     }
 }

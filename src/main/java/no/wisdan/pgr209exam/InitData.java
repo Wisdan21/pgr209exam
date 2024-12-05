@@ -1,9 +1,11 @@
 package no.wisdan.pgr209exam;
 
 import com.github.javafaker.Faker;
+import no.wisdan.pgr209exam.address.Address;
 import no.wisdan.pgr209exam.address.AddressService;
 import no.wisdan.pgr209exam.customer.Customer;
 import no.wisdan.pgr209exam.customer.CustomerService;
+import no.wisdan.pgr209exam.order.Order;
 import no.wisdan.pgr209exam.order.OrderService;
 import no.wisdan.pgr209exam.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +49,22 @@ public class InitData implements CommandLineRunner {
 
             )));
         }
+        /*
+        List<Address> addresses = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            addresses.add(addressService.save(new Address(
+                    faker.address().streetAddress(),
+                    faker.address().city(),
+                    faker.address().zipCode()
+
+            )))
+        }
+
+        private
+
     }
 
+         */
+
+    }
 }

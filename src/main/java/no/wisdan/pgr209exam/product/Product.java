@@ -36,4 +36,8 @@ public class Product {
         this.status = status;
         this.quantityOnHand = quantityOnHand;
     }
+
+    public Product(String name) {
+        this.name = name;
+    }
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import no.wisdan.pgr209exam.customer.Customer;
 
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,16 +23,27 @@ public class Address {
     private String city;
     private String zipcode;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    @JsonIgnoreProperties("customer")
-    private Customer customer;
+    @ManyToMany
+    @JoinTable(
+            name = "address_customer",
+            joinColumns = @JoinColumn(name = "address_id"),
+            inverseJoinColumns = @JoinColumn(name = "customer_id")
 
-    public Address(String street, String city, String zipcode, Customer customer) {
+    )
+    @JsonIgnoreProperties("addresses")
+
+    private List<Customer> customers;
+
+    public Address(String street, String city, String zipcode, List<Customer> customers) {
         this.street = street;
         this.city = city;
         this.zipcode = zipcode;
-        this.customer = customer;
+        this.customers = customers;
     }
 
+    public Address(String street, String city, String zipcode) {
+        this.street = street;
+        this.city = city;
+        this.zipcode = zipcode;
+    }
 }

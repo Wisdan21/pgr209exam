@@ -34,6 +34,8 @@ public class Order {
     @JoinColumn(name = "customer_id")
     @JsonIgnoreProperties("customer")
     private Customer customer;
+
+    @JsonIgnoreProperties("product")
     @ManyToMany
     @JoinTable(
             name = "order_product",
@@ -44,7 +46,7 @@ public class Order {
     private List<Product> products;
 
     @ManyToOne
-    @JsonIgnoreProperties("shippingAddress")
+    @JsonIgnoreProperties("address")
     @JoinColumn(name = "shipping_address_id")
 
     private Address shippingAddress;

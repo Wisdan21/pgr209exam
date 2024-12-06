@@ -33,24 +33,25 @@ public class Customer {
     @JsonIgnoreProperties("customer")
     private List<Order> orders;
 
-    @OneToMany(mappedBy = "customer")
-    @JsonIgnoreProperties("address")
+    @ManyToMany(mappedBy = "customers")
+    @JsonIgnoreProperties("customers")
     private List<Address> addresses;
-
-    public Customer(String firstName, String lastName, String phoneNumber, String email, List<Order> orders, List<Address> addresses) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.orders = orders;
-        this.addresses = addresses;
-    }
 
     public Customer(String firstName, String lastName, String phoneNumber, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
+
+    }
+
+    public Customer(String firstName, String lastName, String phoneNumber, String email, List<Address> addresses) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+
+        this.addresses = addresses;
     }
 }
 

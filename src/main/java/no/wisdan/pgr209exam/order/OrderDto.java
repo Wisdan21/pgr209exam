@@ -9,5 +9,4 @@ public record OrderDto(long customerId,
                        BigDecimal totalPrice,
                        boolean isShipped,
                        long shippingAddressId) {
-
 }

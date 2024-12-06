@@ -4,14 +4,12 @@ import no.wisdan.pgr209exam.address.Address;
 import no.wisdan.pgr209exam.address.AddressService;
 import no.wisdan.pgr209exam.customer.Customer;
 import no.wisdan.pgr209exam.customer.CustomerService;
-import no.wisdan.pgr209exam.exception.CustomerNotFoundException;
 import no.wisdan.pgr209exam.exception.OrderNotFoundException;
 import no.wisdan.pgr209exam.product.Product;
 import no.wisdan.pgr209exam.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -31,27 +29,7 @@ public class OrderService {
         this.addressService = addressService;
     }
 
-    /* public Order save(Order order) {
-         return orderRepo.save(order);
-     }
 
-
-
-     public Order save(OrderDto orderDto) {
-         Customer customer = customerService.findById(orderDto.customerId());
-         List<Product> products = new ArrayList<>();
-         for (long productId : orderDto.productId()) {
-             products.add(productService.findById(productId));
-         }
-         Order order = orderRepo.save(new Order(
-                 customer,
-                 products
-         ));
-         return orderRepo.save(order);
-
-     }
-
-     */
     public Order save(OrderDto orderDto) {
         Customer customer = customerService.findById(orderDto.customerId());
 
@@ -62,15 +40,14 @@ public class OrderService {
 
         Address shippingAddress = addressService.findById(orderDto.shippingAddressId());
 
-        Order order = new Order(
+        Order order = orderRepo.save(new Order(
                 orderDto.shippingCharge(),
                 orderDto.totalPrice(),
                 orderDto.isShipped(),
                 customer,
                 products,
                 shippingAddress
-        );
-
+        ));
 
         return orderRepo.save(order);
     }

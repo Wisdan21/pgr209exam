@@ -59,15 +59,24 @@ class OrderControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    void saveOrder() throws Exception {
-        when(service.save(new Order())).thenReturn(orders.get(1));
-        this.mockMvc.perform(
-                post("/api/order")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(orders.get(1)))
-        ).andExpect(status().isOk());
-    }
+@Test
+void saveOrder() throws Exception {
+    OrderDto orderDto = new OrderDto(
+            1,
+            List.of(1L, 2L),
+            BigDecimal.valueOf(10.0),
+            BigDecimal.valueOf(100.0),
+            true,
+            1
+    );
+    when(service.save(orderDto)).thenReturn(orders.get(1));
+
+    this.mockMvc.perform(
+            post("/api/order")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(new ObjectMapper().writeValueAsString(orderDto))
+    ).andExpect(status().isOk());
+}
 
     @Test
     void deleteOrder() throws Exception {

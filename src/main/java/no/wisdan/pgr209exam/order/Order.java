@@ -41,7 +41,6 @@ public class Order {
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
 
-
     private List<Product> products;
 
     @ManyToOne
@@ -59,10 +58,5 @@ public class Order {
         this.shippingAddress = shippingAddress;
     }
 
-    public Order(BigDecimal shippingCharge, BigDecimal totalPrice, boolean isShipped) {
-        this.shippingCharge = shippingCharge;
-        this.totalPrice = totalPrice;
-        this.isShipped = isShipped;
-    }
 
 }

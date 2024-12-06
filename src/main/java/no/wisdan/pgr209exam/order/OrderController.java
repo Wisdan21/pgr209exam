@@ -28,8 +28,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        return ResponseEntity.ok(orderService.save(order));
+    public ResponseEntity<Order> createOrder(@RequestBody OrderDto orderDto) {
+        return ResponseEntity.ok(orderService.save(orderDto));
     }
 
     @DeleteMapping("/{id}")

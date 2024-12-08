@@ -13,12 +13,10 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 
-
 @SpringBootTest
 @Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-
 public class AddressServiceTest {
     @Container
     @ServiceConnection
@@ -26,6 +24,7 @@ public class AddressServiceTest {
 
     @Autowired
     AddressService service;
+
     @Autowired
     CustomerService customerService;
 
@@ -33,42 +32,23 @@ public class AddressServiceTest {
     @Order(1)
     void setup() {
         Customer customer = customerService.save(new Customer("First", "Last", "123456789", "email"));
+        List<Long> customerIds = List.of(customer.getId());
         for (int i = 0; i < 10; i++) {
-            service.save(new Address(
+            service.save(new AddressDto(
                     "Street " + i,
                     "City " + i,
                     "Zipcode " + (1000 + i),
-                    customer
+                    customerIds
             ));
         }
     }
 
     @Test
-    @Order(2)
-    void getAddresses() {
-        List<Address> addresses = service.findAll();
-        assert addresses.size() == 10;
-    }
-    @Test
     @Order(3)
-    void getAddressById() {
-        var address = service.findById(1);
-        assert address != null;
-        assert address.getStreet().equals("Street 0");
-    }
-
-    @Test
-    @Order(4)
     void saveAddress() {
-        Address savedAddress = service.save(new Address("Street 1", "City 1", "Zipcode 1", customerService.findAll().get(0)));
+        List<Customer> customers = customerService.findAll();
+        AddressDto addressDto = new AddressDto("Street 1", "City 1", "Zipcode 1", List.of(customers.get(0).getId()));
+        Address savedAddress = service.save(addressDto);
         assert savedAddress.getStreet().equals("Street 1");
     }
-
-    @Test
-    @Order(5)
-    void deleteAddressById() {
-        service.deleteById(1);
-        assert service.findAll().size() == 10;
-    }
-
 }

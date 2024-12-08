@@ -21,7 +21,6 @@ class CustomerServiceTest {
     @ServiceConnection
     static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:alpine");
 
-
     @Test
     void connectionEstablished() {
         assert postgreSQLContainer.isCreated();
@@ -34,5 +33,12 @@ class CustomerServiceTest {
         for (int i = 0; i < 10; i++) {
             service.save(new Customer("First" + i, "Last" + i, "123456789", "email" + i));
         }
+    }
+
+    @Test
+    @Order(3)
+    void saveCustomer() {
+        var customer = service.save(new Customer("FirstN", "LastN", "123456789", "emailN"));
+        assert customer.getFirstName().equals("FirstN");
     }
 }

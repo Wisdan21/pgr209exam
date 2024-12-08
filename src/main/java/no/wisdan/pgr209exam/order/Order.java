@@ -32,21 +32,21 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    @JsonIgnoreProperties("customer")
+    @JsonIgnoreProperties({"orders", "customers", "addresses"  })
     private Customer customer;
 
-    @JsonIgnoreProperties("product")
+
     @ManyToMany
     @JoinTable(
             name = "order_product",
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-
+    @JsonIgnoreProperties({"orders", "customers" })
     private List<Product> products;
 
     @ManyToOne
-    @JsonIgnoreProperties("address")
+    @JsonIgnoreProperties({"orders", "customers"})
     @JoinColumn(name = "shipping_address_id")
 
     private Address shippingAddress;
@@ -59,6 +59,4 @@ public class Order {
         this.products = products;
         this.shippingAddress = shippingAddress;
     }
-
-
 }

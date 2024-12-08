@@ -29,7 +29,6 @@ public class OrderService {
         this.addressService = addressService;
     }
 
-
     public Order save(OrderDto orderDto) {
         Customer customer = customerService.findById(orderDto.customerId());
 
@@ -52,7 +51,6 @@ public class OrderService {
         return orderRepo.save(order);
     }
 
-
     public List<Order> findAll() {
         return orderRepo.findAll();
     }
@@ -70,9 +68,4 @@ public class OrderService {
     public void deleteById(Long id) {
         orderRepo.deleteById(id);
     }
-
-    public void deleteAllOrders() {
-        orderRepo.deleteAll();
-    }
-
 }

@@ -30,11 +30,17 @@ public class Customer {
     private String email;
 
     @OneToMany(mappedBy = "customer")
-    @JsonIgnoreProperties("customer")
+    @JsonIgnoreProperties({"customers", "orders"})
     private List<Order> orders;
 
-    @ManyToMany(mappedBy = "customers")
-    @JsonIgnoreProperties("customers")
+
+    @JsonIgnoreProperties({"customers"})
+    @ManyToMany
+    @JoinTable(
+            name = "address_customer",
+            joinColumns = @JoinColumn(name = "address_id"),
+            inverseJoinColumns = @JoinColumn(name = "customer_id")
+    )
     private List<Address> addresses;
 
     public Customer(String firstName, String lastName, String phoneNumber, String email) {
@@ -42,16 +48,6 @@ public class Customer {
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.email = email;
-
-    }
-
-    public Customer(String firstName, String lastName, String phoneNumber, String email, List<Address> addresses) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-
-        this.addresses = addresses;
     }
 }
 

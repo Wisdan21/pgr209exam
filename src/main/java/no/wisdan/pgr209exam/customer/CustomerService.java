@@ -37,7 +37,4 @@ public class CustomerService {
     public void deleteById(long id) {
         customerRepo.deleteById(id);
     }
-    public void deleteAllCustomers() {
-        customerRepo.deleteAll();
-    }
 }

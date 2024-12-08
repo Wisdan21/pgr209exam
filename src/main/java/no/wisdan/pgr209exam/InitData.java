@@ -2,6 +2,7 @@ package no.wisdan.pgr209exam;
 
 import com.github.javafaker.Faker;
 import no.wisdan.pgr209exam.address.Address;
+import no.wisdan.pgr209exam.address.AddressDto;
 import no.wisdan.pgr209exam.address.AddressService;
 import no.wisdan.pgr209exam.customer.Customer;
 import no.wisdan.pgr209exam.customer.CustomerService;
@@ -19,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 
 @Service
 public class InitData implements CommandLineRunner {
@@ -40,30 +40,36 @@ public class InitData implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
 
         List<Customer> customers = new ArrayList<>();
-        List<Address> addresses = new ArrayList<>();
         List<Order> orders = new ArrayList<>();
 
-        for (int i = 1; i < 2; i++) {
-            addresses.add(addressService.save(new Address(
-                    faker.address().streetAddress(),
-                    faker.address().city(),
-                    faker.address().zipCode(),
-                    getRandomCustomers(customers)
-            )));
-        }
-        for (int i = 0; i < 3; i++) {
+        for (int i = 1; i <= 3; i++) {
             customers.add(customerService.save(new Customer(
                     faker.name().firstName(),
                     faker.name().lastName(),
                     faker.phoneNumber().phoneNumber(),
-                    faker.internet().emailAddress(),
-                    getRandomAddresses(addresses)
-
+                    faker.internet().emailAddress()
             )));
         }
+
+        for (Customer customer : customers) {
+            int numAddresses = rng.nextInt(1, 4);
+            List<Address> customerAddresses = new ArrayList<>();
+            for (int i = 0; i < numAddresses; i++) {
+                Address address = addressService.save(new AddressDto(
+                        faker.address().streetAddress(),
+                        faker.address().city(),
+                        faker.address().zipCode(),
+                        List.of(customer.getId())
+                ));
+                customerAddresses.add(address);
+            }
+            customer.setAddresses(customerAddresses);
+            customerService.save(customer);
+        }
+
         List<Product> products = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
             products.add(productService.save(new Product(
@@ -74,38 +80,25 @@ public class InitData implements CommandLineRunner {
                     rng.nextInt(1, 20)
             )));
         }
-        for (int i = 1; i < 2; i++) {
-            addresses.add(addressService.save(new Address(
-                    faker.address().streetAddress(),
-                    faker.address().city(),
-                    faker.address().zipCode(),
-                    getRandomCustomers(customers)
 
-            )));
-        }
-        for (int i = 1; i < 2; i++) {
-
+        for (int i = 0; i < 2; i++) {
             boolean isShipped = rng.nextBoolean();
+
+            Customer randomCustomer = getRandomCustomer(customers);
+            Address shippingAddress = getRandomAddress(randomCustomer.getAddresses());
 
             List<Long> productIds = new ArrayList<>();
             for (Product product : products) {
                 productIds.add(product.getId());
             }
 
-            Address shippingAddress = getRandomAddress(addresses);
-            long shippingAddressId = shippingAddress.getId();
-
-
-            Customer customer = getRandomCustomer(customers);
-            long customerId = customer.getId();
-
             orders.add(orderService.save(new OrderDto(
-                    customerId,
+                    randomCustomer.getId(),
                     productIds,
                     new BigDecimal(faker.commerce().price(1, 3).replace(",", "")),
                     new BigDecimal(faker.commerce().price(10.0, 100.0).replace(",", "")),
                     isShipped,
-                    shippingAddressId
+                    shippingAddress.getId()
             )));
         }
     }
@@ -118,22 +111,4 @@ public class InitData implements CommandLineRunner {
         return addresses.get(rng.nextInt(addresses.size()));
     }
 
-
-    private List<Address> getRandomAddresses(List<Address> addresses) {
-        List<Address> randomAddresses = new ArrayList<>();
-        for (int i = 1; i < rng.nextInt(1, 2); i++) {
-            randomAddresses.add(addresses.get(rng.nextInt(addresses.size())));
-
-        }
-        return randomAddresses;
-    }
-
-    private List<Customer> getRandomCustomers(List<Customer> customers) {
-        List<Customer> randomCustomer = new ArrayList<>();
-        for (int i = 1; i < rng.nextInt(1, 2); i++) {
-            randomCustomer.add(customers.get(rng.nextInt(customers.size())));
-
-        }
-        return randomCustomer;
-    }
 }

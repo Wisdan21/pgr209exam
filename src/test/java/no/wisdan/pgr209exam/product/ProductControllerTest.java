@@ -72,7 +72,7 @@ class ProductControllerTest {
 
     @Test
     void deleteProduct() throws Exception {
-        doNothing().when(service).delete(1);
+        doNothing().when(service).deleteById(1);
         this.mockMvc.perform(delete("/api/product/1"))
                 .andExpect(status().isOk())
                 .andExpect(result -> {

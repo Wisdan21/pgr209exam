@@ -24,8 +24,8 @@ public class AddressController {
         return ResponseEntity.ok(addressService.findById(id));
     }
     @PostMapping
-    public ResponseEntity<Address> createAddress(@RequestBody Address address) {
-        return ResponseEntity.ok(addressService.save(address));
+    public ResponseEntity<Address> createAddress(@RequestBody AddressDto addressDto) {
+        return ResponseEntity.ok(addressService.save(addressDto));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAddress(@PathVariable long id) {

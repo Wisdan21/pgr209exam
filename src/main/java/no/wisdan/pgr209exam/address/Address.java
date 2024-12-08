@@ -30,7 +30,7 @@ public class Address {
             inverseJoinColumns = @JoinColumn(name = "customer_id")
 
     )
-    @JsonIgnoreProperties("addresses")
+    @JsonIgnoreProperties({"orders", "addresses"})
 
     private List<Customer> customers;
 
@@ -41,9 +41,5 @@ public class Address {
         this.customers = customers;
     }
 
-    public Address(String street, String city, String zipcode) {
-        this.street = street;
-        this.city = city;
-        this.zipcode = zipcode;
-    }
+
 }

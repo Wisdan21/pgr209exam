@@ -36,5 +36,4 @@ public class Product {
         this.status = status;
         this.quantityOnHand = quantityOnHand;
     }
-
 }

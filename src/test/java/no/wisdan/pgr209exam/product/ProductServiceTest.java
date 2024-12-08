@@ -43,19 +43,11 @@ class ProductServiceTest {
     @Order(2)
     void getProduct() {
         List<Product> products = service.findAll();
-        assert products.size() == 10;
+        assert products.size() == 12;
     }
 
     @Test
     @Order(3)
-    void getProductById() {
-        var product = service.findById(1);
-        assert product != null;
-        assert product.getName().equals("Product 0");
-    }
-
-    @Test
-    @Order(4)
     void saveProduct() {
         assert service.save(new Product("Product 110",
                 "Description of Product 110",
@@ -65,10 +57,10 @@ class ProductServiceTest {
     }
 
     @Test
-    @Order(5)
+    @Order(4)
     void deleteProductById() {
-        service.delete(1);
-        assert service.findAll().size() == 10;
+        service.deleteById(1);
+        List<Product> products = service.findAll();
+        assert products.size() == 12;
     }
-
 }

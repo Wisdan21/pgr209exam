@@ -19,26 +19,28 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @WebMvcTest(AddressController.class)
 class AddressControllerTest {
     static List<Address> addresses = new ArrayList<>();
+    static List<Customer> customers = new ArrayList<>();
     @Autowired
     MockMvc mockMvc;
     @MockBean
     AddressService service;
 
-    static Customer customer = new Customer("John", "Doe", "983456789", "john.doe@example.com");
 
     @BeforeAll
     static void setUpBeforeClass() {
+        Customer customer = new Customer("John", "Doe", "983456789", "john.doe@example.com");
+        customers.add(customer);
+
         for (int i = 0; i < 10; i++) {
-            addresses.add(new Address("StreetT" + i, "City" + i, "Zip" + i, customer));
+            addresses.add(new Address("StreetT" + i, "City" + i, "Zip" + i, customers));
         }
     }
 
     @Test
-    void getOrders() throws Exception {
+    void getAddress() throws Exception {
         when(service.findAll()).thenReturn(addresses);
         this.mockMvc.perform(get("/api/address"))
                 .andDo(print())
@@ -56,7 +58,13 @@ class AddressControllerTest {
 
     @Test
     void saveAddress() throws Exception {
-        when(service.save(new Address())).thenReturn(addresses.get(1));
+        when(service.save(new AddressDto(
+                "streetT1",
+                ",",
+                "324",
+                List.of(1L)
+
+        ))).thenReturn(addresses.get(1));
         this.mockMvc.perform(
                 post("/api/address")
                         .contentType(MediaType.APPLICATION_JSON)

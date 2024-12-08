@@ -32,7 +32,7 @@ public class ProductService {
         return productRepo.save(product);
     }
 
-    public void delete(long id) {
+    public void deleteById(long id) {
         productRepo.deleteById(id);
     }
 }
